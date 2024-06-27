@@ -103,9 +103,5 @@ func Solution3(filePath string, out io.Writer) error {
 	}
 	fmt.Fprintln(out, "}")
 
-	// station, ok := stations["Port Vila"]
-	// assert.AssertWithError(ok, "Port Vila not found in stations", errors.New("Port Vila not found in stations"))
-	// fmt.Fprintf(out, "station = %v - ", station)
-
 	return nil
 }

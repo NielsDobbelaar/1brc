@@ -20,14 +20,10 @@ func Solution2(filePath string, out io.Writer) error {
 	defer file.Close()
 
 	stations := make(map[string]*Station)
+
 	// Read the file
 	scanner := bufio.NewScanner(file)
-	// numLines := 0
 	for scanner.Scan() {
-		// numLines++
-		// if numLines%10000000 == 0 {
-		// 	fmt.Println(numLines)
-		// }
 
 		line := scanner.Text()
 
@@ -80,10 +76,6 @@ func Solution2(filePath string, out io.Writer) error {
 		fmt.Fprintf(out, "%s=%.1f/%.1f/%.1f", name, station.min, station.sum/float64(station.count), station.max)
 	}
 	fmt.Fprintln(out, "}")
-
-	// station, ok := stations["Port Vila"]
-	// assert.AssertWithError(ok, "Port Vila not found in stations", errors.New("Port Vila not found in stations"))
-	// fmt.Fprintf(out, "station = %v - ", station)
 
 	return nil
 }

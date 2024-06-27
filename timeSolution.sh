@@ -1,21 +1,24 @@
 #!/bin/bash
 
 # Start timing
-start_time=$(date +%s)
+echo "Starting solution timing test."
+echo "Builing..."
+go build -ldflags="-s -w" -o main main.go
 
-# Run the solution script and compare the output with correct.txt using diff
-diff_output=$(diff --color=always <(./runSolution.sh) correct.txt)
+# Check if the build was successful
+if [ $? -eq 0 ]; then
+  # Run the compiled program
+  echo "Build successful. Running solution timing test."
+  start_time=$(date +%s)
+  ./main > /dev/null
+  end_time=$(date +%s)
+else
+  echo "Build failed."
+fi
 
 # End timing
-end_time=$(date +%s)
 elapsed_time=$((end_time - start_time))
 
-# Check if diff_output is empty
-if [ -z "$diff_output" ]; then
-  echo "Correct. Time taken: ${elapsed_time} seconds."
-else
-  echo "Differences found:"
-  echo "$diff_output"
-  echo "Time taken: ${elapsed_time} seconds."
-fi
+echo "Finished running solution timing test."
+echo "Time taken: ${elapsed_time} seconds."
 

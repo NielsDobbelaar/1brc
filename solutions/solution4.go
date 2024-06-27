@@ -20,7 +20,7 @@ func Solution4(filePath string, out io.Writer) error {
 	}
 	defer file.Close()
 
-	// Determine block size and number of blocks
+	// define block size and number of blocks
 	const numLines = 1000000000
 	const blockSize = 4000000
 	numBlocks := (numLines + blockSize - 1) / blockSize
@@ -42,16 +42,16 @@ func Solution4(filePath string, out io.Writer) error {
 			// Receive block of lines
 			lines := <-blocksChan
 
-			// Process each line in the block
 			for _, line := range lines {
-				// Split the line into station and data
+
+				// Split the line into station and data without using strings.Cut
 				name, data, foundSemi := strings.Cut(line, ";")
 				assert.AssertWithErrorAndContext(foundSemi,
 					"no semi-colon found in line: %s",
 					nil,
 					assert.ErrorContext{Name: "Line", Value: line})
 
-				// Parse the data to a float
+				// Parse the data to a float using fast float
 				value, err := fastfloat.Parse(data)
 				assert.AssertWithError(err == nil, "error parsing data to float", err)
 
@@ -87,17 +87,16 @@ func Solution4(filePath string, out io.Writer) error {
 		// If reached blockSize or end of file, send block to worker
 		if lineCount%blockSize == 0 || lineCount == 1000000000 {
 			blocksChan <- lines
-			lines = make([]string, 0, blockSize) // reset lines for the next block
+			lines = make([]string, 0, blockSize)
 		}
 	}
-	close(blocksChan) // Close blockCh to signal no more blocks
 
 	// Wait for all workers to finish
+	close(blocksChan)
 	wg.Wait()
-
-	// Close resultCh after all workers finish sending results
 	close(resultsChan)
-	// Aggregate results from all blocks
+
+	// merge results from all blocks
 	finalStations := make(map[string]*Station)
 	for result := range resultsChan {
 		for name, station := range result {

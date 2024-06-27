@@ -93,7 +93,7 @@ The timings of the different solutions I tried to solve the challenge as of yet.
 - [ ] improve parallel processing
 - [ ] speed up printing of solution
 - [ ] tweak time script to run multiple times and get average
-- [ ] tweak time script to not time building the program
+- [x] tweak time script to not time building the program
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
